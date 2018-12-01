@@ -1,0 +1,113 @@
+let gulp = require('gulp');
+let minifyCSS = require('gulp-csso');
+let concat = require('gulp-concat');
+let sourcemaps = require('gulp-sourcemaps');
+let sass = require('gulp-sass');
+let minifyHtml = require("gulp-minify-html");
+let babel = require("gulp-babel");
+sass.compiler = require('node-sass');
+let browserSync = require('browser-sync').create();
+let inject = require('gulp-inject');
+let npmDist = require('gulp-npm-dist');
+let rename = require('gulp-rename');
+let clean = require('gulp-rimraf');
+let gulpSequence = require('gulp-sequence');
+let filter = require('gulp-filter');
+
+let paths = {
+    html: 'src/**/*.html',
+    sass: 'src/sass/**/*.sass',
+    js: ['src/js/**/*.js', '!*.min.js'],
+    images: 'src/img/**/*.{gif,jpg,png,svg,webp}'
+};
+
+let excludes = ['**/**/core.js', '**/**/jquery.slim.min.js'];
+
+gulp.task('copy:libs', function() {
+    gulp.src(npmDist({
+        excludes: excludes
+    }), {base:'./node_modules'})
+        .pipe(rename(function(path) {
+            path.dirname = path.dirname.replace(/\/dist/, '').replace(/\\dist/, '');
+        }))
+        .pipe(gulp.dest('dist/libs'));
+});
+
+gulp.task('html', function(){
+    let sources = gulp.src(['dist/js/**/*.js', 'dist/css/**/*.css'], {read: false});
+    let libraries = gulp.src(['dist/libs/**/*.js', 'dist/libs/**/*.css', '!dist/libs/**/source/*.css'], {read: false});
+    return gulp.src(paths.html)
+        .pipe(inject(libraries, { ignorePath: 'dist/', addRootSlash: false, name: 'libraries' }))
+        .pipe(inject(sources, { ignorePath: 'dist/', addRootSlash: false }))
+        .pipe(filter(function(a){ return a.stat && a.stat.size }))
+        .pipe(minifyHtml())
+        .pipe(gulp.dest('dist'))
+});
+
+gulp.task('html-dev', function(){
+    let sources = gulp.src(['dist/js/**/*.js', 'dist/css/**/*.css'], {read: false});
+    let libraries = gulp.src(['dist/libs/**/*.js', 'dist/libs/**/*.css'], {read: false});
+    return gulp.src(paths.html)
+        //.pipe(filter(function(a){ return a.stat && a.stat.size }))
+        .pipe(inject(libraries, { ignorePath: 'dist/', addRootSlash: false, name: 'libraries' }))
+        .pipe(inject(sources, { ignorePath: 'dist/', addRootSlash: false }))
+        .pipe(gulp.dest('dist'))
+});
+
+gulp.task('sass', function () {
+    return gulp.src(paths.sass)
+        .pipe(sass().on('error', sass.logError))
+        .pipe(filter(function(a){ return a.stat && a.stat.size }))
+        .pipe(concat('style.min.css'))
+        .pipe(minifyCSS())
+        .pipe(gulp.dest('dist/css'))
+});
+
+gulp.task('sass-dev', function () {
+    return gulp.src(paths.sass)
+        .pipe(sass().on('error', sass.logError))
+        .pipe(filter(function(a){ return a.stat && a.stat.size }))
+        .pipe(gulp.dest('dist/css'))
+});
+
+gulp.task('js', function(){
+    return gulp.src(paths.js)
+        .pipe(filter(function(a){ return a.stat && a.stat.size }))
+        .pipe(sourcemaps.init())
+        .pipe(babel({presets: ['minify']}))
+        .pipe(concat('app.min.js'))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('dist/js'))
+});
+
+gulp.task('js-dev', function(){
+    return gulp.src(paths.js)
+        .pipe(filter(function(a){ return a.stat && a.stat.size }))
+        .pipe(sourcemaps.init())
+        .pipe(babel())
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('dist/js'))
+});
+
+gulp.task('img', function() {
+    return gulp.src(paths.images)
+        .pipe(gulp.dest('dist/img'));
+});
+
+gulp.task('watch', function() {
+    browserSync.init({
+        server: "dist"
+    });
+    gulp.watch(paths.sass, ['sass-dev']).on('change', browserSync.reload);
+    gulp.watch(paths.js, ['js-dev']).on('change', browserSync.reload);
+    gulp.watch(paths.images, ['img']).on('change', browserSync.reload);
+    gulp.watch(paths.html, ['html-dev']).on('change', browserSync.reload);
+});
+
+gulp.task('clean', [], function() {
+    return gulp.src("dist/*", { read: false })
+        .pipe(clean());
+});
+
+gulp.task('build', gulpSequence('clean', 'copy:libs', 'js', 'sass', 'img', 'html'));
+gulp.task('default', gulpSequence('copy:libs', 'js-dev', 'sass-dev',  'img', 'html-dev'));

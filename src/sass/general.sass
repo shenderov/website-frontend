@@ -1,0 +1,13 @@
+@import "color-scheme"
+@import "responsive"
+
+body
+  /* background image and color */
+  font-family: $font-stack
+  background: $background-color url("../img/backgrounds/background.jpg") no-repeat top center
+  background-size: 100%
+  min-width: 320px
+
+@media #{$medium-and-down}
+  body
+    background: $background-color url("../img/backgrounds/background_mobile.jpg") no-repeat top center

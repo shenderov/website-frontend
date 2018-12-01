@@ -1,0 +1,209 @@
+@import "color-scheme"
+@import "../../node_modules/materialize-css/sass/materialize"
+
+.section-title h4
+  text-align: center
+  font-weight: 600
+  margin-top: 0
+  margin-bottom: 25px
+
+#about .container .intro
+  text-align: center
+  padding: 40px 40px 40px 30px
+  background: $about-container-background
+
+#about .about-container-row
+  margin-bottom: 0
+
+
+#about .about-name
+  font-family: 'KoHo', sans-serif
+  font-size: 35px
+  font-weight: 600
+  letter-spacing: 3px
+  text-transform: uppercase
+  margin: 20px 0 0
+  line-height: 45px
+  color: $about-name-text-color
+
+#about .about-title
+  font-size: 16px !important
+  font-weight: 400
+  padding: 10px 25px
+
+#about .about-me-title
+  font-family: 'KoHo', sans-serif
+  font-size: 22px
+  font-weight: 600
+  text-transform: uppercase
+  color: $about-me-title-color
+  padding-left: 20px
+
+#about .intro-content p
+  font-size: 15px
+  line-height: 27px
+  padding: 0 20px
+  margin-bottom: 40px
+  text-align: justify
+  text-indent: 20px
+
+#about .intro-content span
+  line-height: 34px
+
+#about .about-info-label
+  width: 100px
+  display: block
+  float: left
+  text-align: left
+  font-size: 16px !important
+  font-weight: 600
+  margin-bottom: 10px
+
+#about .about-info-value
+  display: block
+  text-align: left
+  margin-bottom: 10px
+  font-size: 16px !important
+
+.row .about-media
+  margin-bottom: 0
+
+.about-media
+  background: $about-media-footer-background
+  padding-top: 10px
+  padding-bottom: 10px
+
+#about .about-media i
+  margin-left: 10px
+  margin-right: 10px
+  font-size: 30px
+  text-align: center
+  text-decoration: none
+  color: $about-media-footer-icons-color
+  opacity: 0.6
+
+#about .about-media i:hover
+  opacity: 0.9
+
+#about .about-media svg
+  margin-left: 5px
+  margin-right: 5px
+  font-size: 30px
+  text-align: center
+  text-decoration: none
+  color: $about-media-footer-icons-color
+  opacity: 0.6
+
+#about .about-media svg:hover
+  opacity: 0.9
+
+#skills .skills-preloader
+  background: $skills-block-background
+  color: $skills-block-text-color
+  padding: 30px 30px
+
+#skills .skills-preloader .progress
+  background: $skills-block-preloader-background
+
+#skills .skills-preloader .progress .determinate
+  background: $skills-block-preloader-selected
+
+#languages .languages-preloader
+  background: $languages-block-background
+  color: $languages-block-text-color
+  padding: 30px 30px
+
+#languages .languages-preloader .progress
+  background: $languages-block-preloader-background
+
+#languages .languages-preloader .progress .determinate
+  background: $languages-block-preloader-selected
+
+.languages-preloader .row
+  margin-bottom: 0
+
+#expertise .expertize-block
+  background: $skills-block-background
+  color: $skills-block-text-color
+  padding: 30px 30px
+
+#expertise .expertize-block i
+  font-size: 28px
+  color: $expertise-icon-color
+
+#expertise .expertize-block svg
+  font-size: 28px
+  color: $expertise-icon-color
+
+#expertise .expertize-block h5
+  text-align: center
+
+#expertise .expertize-block p
+  text-align: justify
+  text-indent: 15px
+
+#contact .contact-block
+  background: $skills-block-background
+  color: $contact-block-text-color
+  padding: 30px 30px
+
+#contact .contact-block .active
+  color: $contact-form-primary-color
+
+/* label underline focus color */
+.input-field input[type]:focus
+ border-bottom: 1px solid $contact-form-primary-color !important
+ box-shadow: 0 1px 0 0 $contact-form-primary-color !important
+
+/* valid color */
+.input-field input[type].valid
+ border-bottom: 1px solid $contact-form-primary-color
+ box-shadow: 0 1px 0 0 $contact-form-primary-color
+
+/* invalid color */
+.input-field input[type].invalid
+ border-bottom: 1px solid $contact-form-error-color
+ box-shadow: 0 1px 0 0 $contact-form-error-color
+
+.input-field textarea:focus
+  border-bottom: 1px solid $contact-form-primary-color !important
+  box-shadow: 0 1px 0 0 $contact-form-primary-color !important
+
+/* valid color */
+.input-field textarea.valid
+  border-bottom: 1px solid $contact-form-primary-color
+  box-shadow: 0 1px 0 0 $contact-form-primary-color
+
+/* invalid color */
+.input-field textarea.invalid
+  border-bottom: 1px solid $contact-form-error-color
+  box-shadow: 0 1px 0 0 $contact-form-error-color
+
+/* icon prefix focus color */
+.input-field .prefix.active
+ color: $contact-form-primary-color
+
+#contact .contact-block .btn.btn-large
+  background: $contact-form-primary-color
+
+@media #{$small-and-down}
+  #about .container .intro
+    padding: 40px 0 30px 0
+  #about .about-me-title
+    text-align: center
+  #about .about-name
+    font-size: 25px
+    letter-spacing: 2px
+    margin: 15px 0 0
+    line-height: 30px
+
+@media #{$medium-and-down}
+  #about .container .intro
+    padding: 40px 0 30px 0
+  #about .about-me-title
+    text-align: center
+  #about .about-name
+    font-size: 30px
+    letter-spacing: 2px
+    margin: 15px 0 0
+    line-height: 30px

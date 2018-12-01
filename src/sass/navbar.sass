@@ -1,0 +1,98 @@
+@import "color-scheme"
+@import "responsive"
+
+header
+  height: 90px !important
+
+nav
+  background-color: inherit
+  box-shadow: inherit
+
+nav ul li a:hover
+  @extend .current
+  opacity: 1
+
+nav ul li a
+  padding: 0 10px
+  margin: 0
+  text-transform: uppercase
+  opacity: 0.8
+  color: $navbar-text
+
+.navbar-container
+  padding-top: 20px
+  z-index: 9999
+
+.nav-wrap
+  padding-left: 100px
+  transition: transform 400ms ease-out 100ms, padding 300ms ease-out, box-shadow 300ms ease-out, background 300ms ease-out
+
+.current
+  position: relative
+  opacity: 1
+
+.current a
+  position: relative
+  outline: none
+  opacity: inherit
+
+.current:before
+  position: absolute
+  margin: auto
+  z-index: 1
+  content: ""
+  width: 80%
+  height: 2px
+  background: $navbar-text
+  bottom: 0
+  left: 12.5%
+
+.sticky .current:before
+  background: $sticky-navbar-text
+
+.sticky ul li a
+  color: $sticky-navbar-text
+
+.sticky
+  position: fixed
+  top: 0
+  z-index: 999
+  background: $sticky-navbar-background
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)
+
+.sticky + .content
+  padding-top: 60px
+
+nav .sidenav-trigger i
+  color: $navbar-text
+
+.sticky .sidenav-trigger i
+  color: $sticky-navbar-text
+
+.sidenav
+  width: 220px
+  background: $sidenav-background
+
+.sidenav li>a
+  color: $sidenav-text
+  text-transform: uppercase
+
+.sidenav .current:before
+  display: none
+
+.sidenav li a
+  opacity: 0.8
+
+.sidenav li a:hover
+  opacity: 1
+  background-color: rgba(0,0,0,0.05)
+
+.sidenav li .current
+  background-color: rgba(0,0,0,0.05)
+  opacity: 1
+
+@media #{$medium-and-down}
+  .nav-wrap
+    padding-left: 15px
+  nav .sidenav-trigger i
+    margin-top: 0
