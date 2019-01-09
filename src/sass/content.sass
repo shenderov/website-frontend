@@ -1,11 +1,23 @@
 @import "color-scheme"
 @import "../../node_modules/materialize-css/sass/materialize"
 
-.section-title h4
+.section
+  padding-top: 1rem
+  padding-bottom: 0
+
+.section-title h1
+  font-size: 2rem
   text-align: center
   font-weight: 600
   margin-top: 0
   margin-bottom: 25px
+
+#about .profile-image img
+  width: 250px
+
+#about .section-title h1
+  margin-top: 5px
+  margin-bottom: 15px
 
 #about .container .intro
   text-align: center
@@ -14,7 +26,6 @@
 
 #about .about-container-row
   margin-bottom: 0
-
 
 #about .about-name
   font-family: 'KoHo', sans-serif
@@ -31,19 +42,20 @@
   font-weight: 400
   padding: 10px 25px
 
-#about .about-me-title
-  font-family: 'KoHo', sans-serif
-  font-size: 22px
-  font-weight: 600
-  text-transform: uppercase
-  color: $about-me-title-color
-  padding-left: 20px
+//#about .about-me-title
+//  font-family: 'KoHo', sans-serif
+//  font-size: 22px
+//  font-weight: 600
+//  text-transform: uppercase
+//  color: $about-me-title-color
+
+#about .intro-content
+  padding: 0 20px
 
 #about .intro-content p
   font-size: 15px
   line-height: 27px
-  padding: 0 20px
-  margin-bottom: 40px
+  margin-bottom: 25px
   text-align: justify
   text-indent: 20px
 
@@ -51,7 +63,7 @@
   line-height: 34px
 
 #about .about-info-label
-  width: 100px
+  width: 90px
   display: block
   float: left
   text-align: left
@@ -80,10 +92,10 @@
   text-align: center
   text-decoration: none
   color: $about-media-footer-icons-color
-  opacity: 0.6
+  opacity: 0.9
 
 #about .about-media i:hover
-  opacity: 0.9
+  opacity: 1
 
 #about .about-media svg
   margin-left: 5px
@@ -186,6 +198,9 @@
 #contact .contact-block .btn.btn-large
   background: $contact-form-primary-color
 
+#contact #contact_form textarea.materialize-textarea
+  height: 6rem
+
 @media #{$small-and-down}
   #about .container .intro
     padding: 40px 0 30px 0
@@ -196,10 +211,24 @@
     letter-spacing: 2px
     margin: 15px 0 0
     line-height: 30px
+  #about .about-info-label
+    width: 70px
+    font-size: 14px !important
+  #about .about-info-value
+    font-size: 14px !important
+    overflow: hidden
+    text-overflow: ellipsis
+  #about .intro-content
+    padding: 0 10px
+  #about .intro-content p
+    font-size: 14px
+
 
 @media #{$medium-and-down}
+  .navbar-container
+    padding-top: 10px !important
   #about .container .intro
-    padding: 40px 0 30px 0
+    padding: 40px 0 15px 0
   #about .about-me-title
     text-align: center
   #about .about-name
@@ -207,3 +236,9 @@
     letter-spacing: 2px
     margin: 15px 0 0
     line-height: 30px
+  #about .intro-content
+    padding: 0 20px
+  #about .about-info-label
+    width: 80px
+  #about .intro-content p
+    margin-bottom: 10px

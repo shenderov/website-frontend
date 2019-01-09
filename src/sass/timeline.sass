@@ -1,5 +1,12 @@
 @import "color-scheme"
 
+ul.timeline
+  padding-top: 5px
+  padding-bottom: 0
+  margin-bottom: 0
+
+  //li.last-item
+
 .timeline
   list-style: none
   padding: 10px 0
@@ -94,6 +101,9 @@
   border-right-width: 14px
   left: -14px
   right: auto
+
+.timeline > li:last-child
+  margin-bottom: 0
 
 .timeline-badge > a 
   color: #ffffff !important
@@ -207,4 +217,9 @@
 
   .timeline > li.timeline-inverted > .timeline-badge
     left: 28px
+
+  ul.timeline
+    padding-top: 5px
+    right: 27px
+    width: 108%
 

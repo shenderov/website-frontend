@@ -4,7 +4,6 @@ let concat = require('gulp-concat');
 let sourcemaps = require('gulp-sourcemaps');
 let sass = require('gulp-sass');
 let minifyHtml = require("gulp-minify-html");
-let babel = require("gulp-babel");
 sass.compiler = require('node-sass');
 let browserSync = require('browser-sync').create();
 let inject = require('gulp-inject');
@@ -13,6 +12,8 @@ let rename = require('gulp-rename');
 let clean = require('gulp-rimraf');
 let gulpSequence = require('gulp-sequence');
 let filter = require('gulp-filter');
+let uglify = require('gulp-uglify');
+let ngAnnotate = require('gulp-ng-annotate');
 
 let paths = {
     html: 'src/**/*.html',
@@ -21,7 +22,7 @@ let paths = {
     images: 'src/img/**/*.{gif,jpg,png,svg,webp}'
 };
 
-let excludes = ['**/**/core.js', '**/**/jquery.slim.min.js'];
+let excludes = ['**/**/core.js', '**/**/jquery.slim.min.js', '**/**/index.js'];
 
 gulp.task('copy:libs', function() {
     gulp.src(npmDist({
@@ -73,19 +74,19 @@ gulp.task('sass-dev', function () {
 gulp.task('js', function(){
     return gulp.src(paths.js)
         .pipe(filter(function(a){ return a.stat && a.stat.size }))
-        .pipe(sourcemaps.init())
-        .pipe(babel({presets: ['minify']}))
+        //.pipe(sourcemaps.init())
         .pipe(concat('app.min.js'))
-        .pipe(sourcemaps.write())
+        .pipe(ngAnnotate())
+        .pipe(uglify())
+        //.pipe(sourcemaps.write())
         .pipe(gulp.dest('dist/js'))
 });
 
 gulp.task('js-dev', function(){
     return gulp.src(paths.js)
         .pipe(filter(function(a){ return a.stat && a.stat.size }))
-        .pipe(sourcemaps.init())
-        .pipe(babel())
-        .pipe(sourcemaps.write())
+        // .pipe(sourcemaps.init())
+        // .pipe(sourcemaps.write())
         .pipe(gulp.dest('dist/js'))
 });
 

@@ -4,10 +4,47 @@
 body
   /* background image and color */
   font-family: $font-stack
-  background: $background-color url("../img/backgrounds/background.jpg") no-repeat top center
+  //2, 3, 9, 13, 14, 15, 16, 17, 19
+  background: $background-color url("../img/backgrounds/background1.jpg") no-repeat top center
   background-size: 100%
   min-width: 320px
 
+.error-toast
+  background: $error-color
+
+.info-toast
+  background: $primary-color
+
+.success-toast
+  background: $secondary-color
+
+.overlay-loader
+  transition: 0.8s linear all
+  background-color: $secondary-background
+  position: fixed
+  width: 100%
+  height: 100%
+  top: 0
+  left: 0
+  z-index: 9999
+
+.overlay-loader.ng-enter,
+.overlay-loader.ng-leave
+  -webkit-transition: opacity ease-in-out 0.5s
+  -moz-transition: opacity ease-in-out 0.5s
+  -ms-transition: opacity ease-in-out 0.5s
+  -o-transition: opacity ease-in-out 0.5s
+  transition: opacity ease-in-out 0.5s
+
+.overlay-loader.ng-enter,
+.overlay-loader.ng-leave.ng-leave-active
+  opacity: 0
+
+.overlay-loader .preloader-wrapper
+  margin-left: auto
+  margin-right: auto
+
+
 @media #{$medium-and-down}
   body
-    background: $background-color url("../img/backgrounds/background_mobile.jpg") no-repeat top center
+    background: $background-color url("../img/backgrounds/background_mobile1.jpg") no-repeat top center
