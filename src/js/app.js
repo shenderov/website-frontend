@@ -95,7 +95,7 @@ app.controller('General', function($scope, Connector){
     $scope.getDateString = function (date, isYearOnly) {
         var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         var res;
-        var d = new Date(date);
+        var d = date != null ? new Date(date.substring(0, date.indexOf("T"))) : null;
         if(date == null){
             res = "Present";
         }else if(isYearOnly){
