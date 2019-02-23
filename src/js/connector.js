@@ -34,8 +34,8 @@ app.factory('Connector', ['$http', '$q', function ($http, $q) {
                     }
                 );
         },
-        sendMessage: function (message) {
-            return $http.post(baseUrl + 'sendMessage', message)
+        sendMessage: function (message, recaptcha) {
+            return $http.post(baseUrl + 'sendMessage', message, {params: {'g-recaptcha-response': recaptcha}})
                 .then(
                     function (response) {
                         return response.data;

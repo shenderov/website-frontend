@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131264695-1"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -320,10 +321,13 @@
                     </div>
                     <div class="divider"></div>
                     <div class="row">
-                        <div class="col m12">
+                        <div class="col m12 l9 s12">
+                            <div class="g-recaptcha" data-sitekey="{{recaptchaSiteKey}}" data-callback="recaptcha_success" data-expired-callback="recaptcha_fail" data-error-callback="recaptcha_fail"></div>
+                        </div>
+                        <div class="col m12 l3 s12">
                             <p class="right-align">
                                 <button class="btn btn-large waves-effect waves-light" type="button" name="action"
-                                        ng-disabled="contactForm.$invalid && contactForm.$dirty || messageWrapper.disableSendButton"
+                                        ng-disabled="contactForm.$invalid && contactForm.$dirty || messageWrapper.disableSendButton || !recaptchaResult && contactForm.$dirty"
                                         ng-click="contactForm.$valid && sendMessage(messageWrapper.message)">
                                     {{(blocks.contact.formLabels | filter : {'label':'submit_button'})[0].value }}
                                 </button>

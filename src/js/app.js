@@ -16,6 +16,8 @@ app.controller('General', function($scope, Connector){
     $scope.contact = $scope.blocks.contact;
     $scope.messageWrapper = {};
     $scope.messageWrapper.disableSendButton = false;
+    $scope.recaptchaSiteKey = "6LctWpMUAAAAAJaEEtevRDBQ5oBsEgFcH69Qnj0L";
+    $scope.recaptchaResult = false;
 
     $scope.getSeoData = function () {
         return Connector.getSeoData().then(
@@ -64,7 +66,7 @@ app.controller('General', function($scope, Connector){
 
     $scope.sendMessage = function (message) {
         $scope.messageWrapper.disableSendButton = true;
-        return Connector.sendMessage(message).then(
+        return Connector.sendMessage(message, grecaptcha.getResponse()).then(
             function (message) {
                 M.toast({html: 'Message Successfully Sent', classes: 'success-toast'});
                 $scope.messageWrapper.message = {};
@@ -81,6 +83,10 @@ app.controller('General', function($scope, Connector){
                 console.error(JSON.stringify(errResponse));
                 return null;
             })
+    };
+
+    $scope.setRecaptchaResult = function (result) {
+        $scope.recaptchaResult = result;
     };
 
     function chunkGenericElements(elements, chunkSize) {
@@ -111,3 +117,19 @@ app.controller('General', function($scope, Connector){
 app.config( ['$compileProvider', function( $compileProvider){
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|mailto|skype):/);
 }]);
+
+var recaptcha_success = function() {
+    var scope = angular.element(
+        document.getElementById("contact")).scope();
+    scope.$apply(function () {
+        scope.setRecaptchaResult(true);
+    });
+};
+
+var recaptcha_fail = function() {
+    var scope = angular.element(
+        document.getElementById("contact")).scope();
+    scope.$apply(function () {
+        scope.setRecaptchaResult(false);
+    });
+};
