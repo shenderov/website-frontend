@@ -75,12 +75,14 @@ app.controller('General', function($scope, Connector){
                 M.updateTextFields();
                 $scope.contactForm.$setUntouched();
                 $scope.contactForm.$setPristine();
+                grecaptcha.reset();
                 return message;
             },
             function (errResponse) {
                 $scope.messageWrapper.disableSendButton = false;
                 M.toast({html: 'Message Can Not Be Sent', classes: 'error-toast'});
                 console.error(JSON.stringify(errResponse));
+                grecaptcha.reset();
                 return null;
             })
     };
