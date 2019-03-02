@@ -2,6 +2,7 @@
 <html lang="en" ng-app="cvApp" ng-controller="General">
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="keywords" content="qa, test automation, test automation engineer, devops, full stack developer, cv, portfolio, projects, spring, angular, front end developer, back end developer">
     <meta name="description" content="Personal Page of Konstantin Shenderov - Test Automation Engineer and Full Stack Developer">
@@ -182,7 +183,7 @@
                         <div ng-repeat="item in rows">
                         <span>{{item.label}}</span>
                         <div class="progress">
-                            <div class="determinate" style="width: {{item.value}}%"></div>
+                            <div class="determinate" ng-style="{width: item.value + '%'}"></div>
                         </div>
                     </div>
                     </div>
@@ -209,7 +210,7 @@
                     <div class="col m{{blocks.languages.skills.length > 2 ? 4 : 6}} s12" ng-repeat="item in rows">
                         <span>{{item.label}}</span>
                         <div class="progress">
-                            <div class="determinate" style="width: {{item.value}}%"></div>
+                            <div class="determinate" ng-style="{width: item.value + '%'}"></div>
                         </div>
                     </div>
                 </div>
