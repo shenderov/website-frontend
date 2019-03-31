@@ -31,8 +31,10 @@
   "dependencies": {
     "angular": "^1.7.5",
     "angular-animate": "^1.7.5",
+    "animate.css": "^3.7.0",
     "jquery": "^3.3.1",
     "material-icons-font": "^1.4.2",
-    "materialize-css": "^1.0.0"
+    "materialize-css": "^1.0.0",
+    "wowjs": "^1.1.3"
   }
 }

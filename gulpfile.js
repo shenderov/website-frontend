@@ -19,10 +19,16 @@ let paths = {
     html: 'src/**/*.html',
     sass: 'src/sass/**/*.sass',
     js: ['src/js/**/*.js', '!*.min.js'],
-    images: 'src/img/**/*.{gif,jpg,png,svg,webp}'
+    images: 'src/img/**/*.{gif,jpg,png,svg,webp}',
+    config: "src/config/*.js"
 };
 
 let excludes = ['**/**/core.js', '**/**/jquery.slim.min.js', '**/**/index.js'];
+
+gulp.task('copy:config', function() {
+    return gulp.src(paths.config)
+        .pipe(gulp.dest('dist/config'))
+});
 
 gulp.task('copy:libs', function() {
     gulp.src(npmDist({
@@ -36,7 +42,7 @@ gulp.task('copy:libs', function() {
 
 gulp.task('html', function(){
     let sources = gulp.src(['dist/js/**/*.js', 'dist/css/**/*.css'], {read: false});
-    let libraries = gulp.src(['dist/libs/**/*.js', 'dist/libs/**/*.css', '!dist/libs/**/source/*.css'], {read: false});
+    let libraries = gulp.src(['dist/libs/**/*.js', 'dist/libs/**/*.css', '!dist/libs/**/source/*.css', '!dist/libs/**/source/**/*.css'], {read: false});
     return gulp.src(paths.html)
         .pipe(inject(libraries, { ignorePath: 'dist/', addRootSlash: false, name: 'libraries' }))
         .pipe(inject(sources, { ignorePath: 'dist/', addRootSlash: false }))
@@ -47,7 +53,7 @@ gulp.task('html', function(){
 
 gulp.task('html-dev', function(){
     let sources = gulp.src(['dist/js/**/*.js', 'dist/css/**/*.css'], {read: false});
-    let libraries = gulp.src(['dist/libs/**/*.js', 'dist/libs/**/*.css'], {read: false});
+    let libraries = gulp.src(['dist/libs/**/*.js', 'dist/libs/**/*.css', '!dist/libs/**/source/*.css', '!dist/libs/**/source/**/*.css'], {read: false});
     return gulp.src(paths.html)
         //.pipe(filter(function(a){ return a.stat && a.stat.size }))
         .pipe(inject(libraries, { ignorePath: 'dist/', addRootSlash: false, name: 'libraries' }))
@@ -99,6 +105,7 @@ gulp.task('watch', function() {
     browserSync.init({
         server: "dist"
     });
+    gulp.watch(paths.config, ['copy:config']).on('change', browserSync.reload);
     gulp.watch(paths.sass, ['sass-dev']).on('change', browserSync.reload);
     gulp.watch(paths.js, ['js-dev']).on('change', browserSync.reload);
     gulp.watch(paths.images, ['img']).on('change', browserSync.reload);
@@ -110,5 +117,5 @@ gulp.task('clean', [], function() {
         .pipe(clean());
 });
 
-gulp.task('build', gulpSequence('clean', 'copy:libs', 'js', 'sass', 'img', 'html'));
-gulp.task('default', gulpSequence('copy:libs', 'js-dev', 'sass-dev',  'img', 'html-dev'));
+gulp.task('build', gulpSequence('clean', 'copy:config', 'copy:libs', 'js', 'sass', 'img', 'html'));
+gulp.task('default', gulpSequence('copy:config', 'copy:libs', 'js-dev', 'sass-dev',  'img', 'html-dev'));

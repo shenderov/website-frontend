@@ -1,7 +1,5 @@
 var app = angular.module('cvApp', ['ngAnimate']);
 
-var hostname = 'http://localhost:8080';
-
 app.controller('General', function($scope, Connector){
     $scope.loader = true;
     $scope.seoData = {};
@@ -16,7 +14,8 @@ app.controller('General', function($scope, Connector){
     $scope.contact = $scope.blocks.contact;
     $scope.messageWrapper = {};
     $scope.messageWrapper.disableSendButton = false;
-    $scope.recaptchaSiteKey = "6LctWpMUAAAAAJaEEtevRDBQ5oBsEgFcH69Qnj0L";
+    $scope.enableRecaptcha = config.enableRecaptcha;
+    $scope.recaptchaSiteKey = config.recaptchaSiteKey;
     $scope.recaptchaResult = false;
 
     $scope.getSeoData = function () {
@@ -66,7 +65,8 @@ app.controller('General', function($scope, Connector){
 
     $scope.sendMessage = function (message) {
         $scope.messageWrapper.disableSendButton = true;
-        return Connector.sendMessage(message, grecaptcha.getResponse()).then(
+        $scope.recaptchaResponse = $scope.enableRecaptcha ? grecaptcha.getResponse() : null;
+        return Connector.sendMessage(message, $scope.recaptchaResponse).then(
             function (message) {
                 M.toast({html: 'Message Successfully Sent', classes: 'success-toast'});
                 $scope.messageWrapper.message = {};

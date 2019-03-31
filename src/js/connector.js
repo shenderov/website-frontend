@@ -1,5 +1,5 @@
 app.factory('Connector', ['$http', '$q', function ($http, $q) {
-    var baseUrl = hostname + "/";
+    var baseUrl = config.hostname + "/";
     return {
         getSeoData: function () {
             return $http.get(baseUrl + 'seo')
@@ -35,7 +35,8 @@ app.factory('Connector', ['$http', '$q', function ($http, $q) {
                 );
         },
         sendMessage: function (message, recaptcha) {
-            return $http.post(baseUrl + 'sendMessage', message, {params: {'g-recaptcha-response': recaptcha}})
+            var params = recaptcha === null ? {} : {params: {'g-recaptcha-response': recaptcha}};
+            return $http.post(baseUrl + 'sendMessage', message, params)
                 .then(
                     function (response) {
                         return response.data;

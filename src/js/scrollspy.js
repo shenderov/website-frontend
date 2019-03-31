@@ -3,3 +3,5 @@ $(document).ready(function(){
         activeClass: "current"
     });
 });
+
+new WOW().init();
