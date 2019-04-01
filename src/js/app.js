@@ -76,6 +76,7 @@ app.controller('General', function($scope, Connector){
                 $scope.contactForm.$setUntouched();
                 $scope.contactForm.$setPristine();
                 grecaptcha.reset();
+                $scope.recaptchaResult = false;
                 return message;
             },
             function (errResponse) {
@@ -83,6 +84,7 @@ app.controller('General', function($scope, Connector){
                 M.toast({html: 'Message Can Not Be Sent', classes: 'error-toast'});
                 console.error(JSON.stringify(errResponse));
                 grecaptcha.reset();
+                $scope.recaptchaResult = false;
                 return null;
             })
     };
