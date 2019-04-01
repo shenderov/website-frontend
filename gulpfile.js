@@ -20,7 +20,8 @@ let paths = {
     sass: 'src/sass/**/*.sass',
     js: ['src/js/**/*.js', '!*.min.js'],
     images: 'src/img/**/*.{gif,jpg,png,svg,webp}',
-    config: "src/config/*.js"
+    config: "src/config/*.js",
+    seo: 'src/{robots.txt,sitemap.xml}'
 };
 
 let excludes = ['**/**/core.js', '**/**/jquery.slim.min.js', '**/**/index.js'];
@@ -28,6 +29,11 @@ let excludes = ['**/**/core.js', '**/**/jquery.slim.min.js', '**/**/index.js'];
 gulp.task('copy:config', function() {
     return gulp.src(paths.config)
         .pipe(gulp.dest('dist/config'))
+});
+
+gulp.task('copy:seo', function() {
+    return gulp.src(paths.seo)
+        .pipe(gulp.dest('dist'))
 });
 
 gulp.task('copy:libs', function() {
@@ -55,7 +61,6 @@ gulp.task('html-dev', function(){
     let sources = gulp.src(['dist/js/**/*.js', 'dist/css/**/*.css'], {read: false});
     let libraries = gulp.src(['dist/libs/**/*.js', 'dist/libs/**/*.css', '!dist/libs/**/source/*.css', '!dist/libs/**/source/**/*.css'], {read: false});
     return gulp.src(paths.html)
-        //.pipe(filter(function(a){ return a.stat && a.stat.size }))
         .pipe(inject(libraries, { ignorePath: 'dist/', addRootSlash: false, name: 'libraries' }))
         .pipe(inject(sources, { ignorePath: 'dist/', addRootSlash: false }))
         .pipe(gulp.dest('dist'))
@@ -117,5 +122,5 @@ gulp.task('clean', [], function() {
         .pipe(clean());
 });
 
-gulp.task('build', gulpSequence('clean', 'copy:config', 'copy:libs', 'js', 'sass', 'img', 'html'));
-gulp.task('default', gulpSequence('copy:config', 'copy:libs', 'js-dev', 'sass-dev',  'img', 'html-dev'));
+gulp.task('build', gulpSequence('clean', 'copy:config', 'copy:seo', 'copy:libs', 'js', 'sass', 'img', 'html'));
+gulp.task('default', gulpSequence('copy:config', 'copy:seo', 'copy:libs', 'js-dev', 'sass-dev',  'img', 'html-dev'));
