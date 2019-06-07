@@ -37,7 +37,7 @@ gulp.task('copy:seo', function() {
 });
 
 gulp.task('copy:libs', function() {
-    gulp.src(npmDist({
+    return gulp.src(npmDist({
         excludes: excludes
     }), {base:'./node_modules'})
         .pipe(rename(function(path) {
@@ -117,10 +117,10 @@ gulp.task('watch', function() {
     gulp.watch(paths.html, ['html-dev']).on('change', browserSync.reload);
 });
 
-gulp.task('clean', [], function() {
+gulp.task('clean', function() {
     return gulp.src("dist/*", { read: false })
         .pipe(clean());
 });
 
-gulp.task('build', gulpSequence('clean', 'copy:config', 'copy:seo', 'copy:libs', 'js', 'sass', 'img', 'html'));
-gulp.task('default', gulpSequence('copy:config', 'copy:seo', 'copy:libs', 'js-dev', 'sass-dev',  'img', 'html-dev'));
+gulp.task('build', gulp.series('clean', 'copy:config', 'copy:seo', 'copy:libs', 'js', 'sass', 'img', 'html'));
+gulp.task('default', gulp.series('copy:config', 'copy:seo', 'copy:libs', 'js-dev', 'sass-dev',  'img', 'html-dev'));
