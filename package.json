@@ -1,6 +1,6 @@
 {
   "name": "personal-site",
-  "version": "1.0.x-SNAPSHOT",
+  "version": "1.0.4",
   "description": "Konstantin Shenderov's personal web site",
   "main": "index.js",
   "author": "Konstantin Shenderov",
