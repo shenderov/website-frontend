@@ -9,7 +9,7 @@
     "clean": "gulp clean",
     "build": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "version": "echo ",
+    "version": "echo $npm_package_version",
     "name": "echo $npm_package_name",
     "description": "echo $npm_package_description"
   },
