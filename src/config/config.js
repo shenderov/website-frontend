@@ -1,5 +1,5 @@
 const config = {
-    "hostname": ".",
+    "hostname": "http://localhost:8080",
     "enableRecaptcha": false,
-    "recaptchaSiteKey": ""
+    "recaptchaSiteKey": "6LctWpMUAAAAAJaEEtevRDBQ5oBsEgFcH69Qnj0L"
 };

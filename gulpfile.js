@@ -110,11 +110,11 @@ gulp.task('watch', function() {
     browserSync.init({
         server: "dist"
     });
-    gulp.watch(paths.config, ['copy:config']).on('change', browserSync.reload);
-    gulp.watch(paths.sass, ['sass-dev']).on('change', browserSync.reload);
-    gulp.watch(paths.js, ['js-dev']).on('change', browserSync.reload);
-    gulp.watch(paths.images, ['img']).on('change', browserSync.reload);
-    gulp.watch(paths.html, ['html-dev']).on('change', browserSync.reload);
+    gulp.watch(paths.config, gulp.series('copy:config')).on('change', browserSync.reload);
+    gulp.watch(paths.sass, gulp.series('sass-dev')).on('change', browserSync.reload);
+    gulp.watch(paths.js, gulp.series('js-dev')).on('change', browserSync.reload);
+    gulp.watch(paths.images, gulp.series('img')).on('change', browserSync.reload);
+    gulp.watch(paths.html, gulp.series('html-dev')).on('change', browserSync.reload);
 });
 
 gulp.task('clean', function() {
