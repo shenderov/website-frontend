@@ -12,7 +12,7 @@ let rename = require('gulp-rename');
 let clean = require('gulp-rimraf');
 let gulpSequence = require('gulp-sequence');
 let filter = require('gulp-filter');
-let uglify = require('gulp-uglify');
+let uglify = require('gulp-uglify-es').default;
 let ngAnnotate = require('gulp-ng-annotate');
 
 let paths = {
