@@ -42,7 +42,7 @@
                 window.location.replace("/panel/index.html");
             }
         };
-        xmlHttp.open( "GET", "/system/ping", true );
+        xmlHttp.open( "GET", config.hostname + "/system/ping", true );
         xmlHttp.send( null );
     };
     isAuthenticated();
