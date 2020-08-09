@@ -39,7 +39,7 @@
         let xmlHttp = new XMLHttpRequest();
         xmlHttp.onreadystatechange = function() {
             if (xmlHttp.readyState === 4 && xmlHttp.status === 200){
-                window.location.replace("/panel/index.html");
+                window.location.replace(config.context + "/panel/index.html");
             }
         };
         xmlHttp.open( "GET", config.hostname + config.context + "/system/ping", true );
