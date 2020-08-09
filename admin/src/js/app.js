@@ -110,11 +110,11 @@ app.controller('UsersController', function($scope, $location, ConnectorAdmin){
     $scope.getAllUsers();
 
     $scope.convertRoles = function (authorities) {
-        let res = "";
+        let result = "";
         authorities.forEach(function(authority) {
-            res += authority.name.split('_')[1] + ', ';
+            result += authority.name.split('_')[1] + ', ';
         });
-        return res.substring(0, res.length-2);
+        return result.substring(0, result.length-2);
     };
 
     $scope.addUser = function () {
