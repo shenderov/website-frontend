@@ -62,6 +62,11 @@ app.controller('MainController', function($scope, $interval, ConnectorAdmin){
                 return null;
             })
     };
+
+    $scope.logout = function () {
+        window.location.replace(config.context + '/logout');
+    };
+
     $scope.getNewMessagesCount();
     $interval(function() {
         $scope.getNewMessagesCount();
