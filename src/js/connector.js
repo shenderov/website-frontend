@@ -1,5 +1,5 @@
 app.factory('Connector', ['$http', '$q', function ($http, $q) {
-    var baseUrl = config.hostname + "/";
+    var baseUrl = config.hostname + config.context + "/public/";
     return {
         getSeoData: function () {
             return $http.get(baseUrl + 'seo')
