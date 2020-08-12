@@ -1,5 +1,6 @@
 app.factory('ConnectorAdmin', ['$http', '$q', function ($http, $q) {
     var baseUrl = config.hostname + config.context + "/admin/";
+    var authBaseUrl = config.hostname + config.context + "/auth/";
     var publicBaseUrl = config.hostname + config.context + "/public/";
     var headers = {"Authorization": "Basic YWRtaW46cGFzc3dvcmQ="};
     return {
@@ -271,6 +272,17 @@ app.factory('ConnectorAdmin', ['$http', '$q', function ($http, $q) {
         },
         changePassword: function (wrapper) {
             return $http.post(baseUrl + 'changeUserPassword', wrapper, {headers: headers})
+                .then(
+                    function (response) {
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        return $q.reject(errResponse.data);
+                    }
+                );
+        },
+        getCurrentUser: function () {
+            return $http.get(authBaseUrl + 'getCurrentUser', {headers: headers})
                 .then(
                     function (response) {
                         return response.data;

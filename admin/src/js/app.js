@@ -45,9 +45,37 @@ app.config(function ($routeProvider) {
         });
 });
 
-app.controller('MainController', function($scope, $interval, ConnectorAdmin){
+app.controller('MainController', function($scope, $interval, $http, ConnectorAdmin){
+    $scope.version = "";
+    $scope.userInfo = {};
     $scope.viewData = {};
     $scope.newMessagesCount = 0;
+
+    $scope.getBuildInfo = function (){
+        $http.get("build.json")
+            .then(
+                function (response) {
+                    $scope.version = response.data["build.version"];
+                    response.data["build.number"] ? $scope.version = $scope.version + "." + response.data["build.number"] : "";
+                    response.data["build.timestamp"] ? $scope.version = $scope.version + "(" + response.data["build.timestamp"] + ")" : "";
+                }
+            );
+    };
+    $scope.getBuildInfo();
+
+    $scope.getUserInfo = function (){
+        return ConnectorAdmin.getCurrentUser().then(
+            function (data) {
+                $scope.userInfo = data;
+                return data;
+            },
+            function (errResponse) {
+                console.error(JSON.stringify(errResponse));
+                return null;
+            })
+    };
+    $scope.getUserInfo();
+
     $scope.getNewMessagesCount = function () {
         return ConnectorAdmin.getNewMessagesCount().then(
             function (data) {

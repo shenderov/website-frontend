@@ -12,12 +12,15 @@ let clean = require('gulp-rimraf');
 let filter = require('gulp-filter');
 let uglify = require('gulp-uglify-es').default;
 let ngAnnotate = require('gulp-ng-annotate');
+let fs = require('fs');
+let jsonFormat = require('gulp-json-format');
+let jsonModify = require('gulp-json-modify');
 
 let paths = {
     html: 'src/**/*.html',
     sass: 'src/sass/**/*.sass',
     js: ['src/js/**/*.js', '!*.min.js'],
-    config: "src/config/*.js"
+    config: "src/config/**",
 };
 
 let excludes = ['**/**/core.js', '**/**/jquery.slim.min.js', '**/**/index.js'];
@@ -25,6 +28,18 @@ let excludes = ['**/**/core.js', '**/**/jquery.slim.min.js', '**/**/index.js'];
 gulp.task('copy:config', function() {
     return gulp.src(paths.config)
         .pipe(gulp.dest('dist/config'))
+});
+
+gulp.task('copy:build', function() {
+    let packageJson = JSON.parse(fs.readFileSync('./package.json').toString());
+    return gulp.src('src/build.json.template')
+        .pipe(jsonModify({ key: ['build.name'], value: packageJson.name }))
+        .pipe(jsonModify({ key: ['build.description'], value: packageJson.description }))
+        .pipe(jsonModify({ key: ['build.author'], value: packageJson.author }))
+        .pipe(jsonModify({ key: ['build.version'], value: packageJson.version }))
+        .pipe(rename('build.json'))
+        .pipe(jsonFormat(4))
+        .pipe(gulp.dest('dist/'))
 });
 
 gulp.task('copy:libs', function() {
@@ -103,5 +118,5 @@ gulp.task('clean', function() {
         .pipe(clean());
 });
 
-gulp.task('build', gulp.series('clean', 'copy:config', 'copy:libs', 'js', 'sass', 'html'));
-gulp.task('default', gulp.series('copy:config', 'copy:libs', 'js-dev', 'sass-dev', 'html-dev'));
+gulp.task('build', gulp.series('clean', 'copy:config', 'copy:build', 'copy:libs', 'js', 'sass', 'html'));
+gulp.task('default', gulp.series('copy:config', 'copy:build', 'copy:libs', 'js-dev', 'sass-dev', 'html-dev'));
