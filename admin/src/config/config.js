@@ -1,4 +1,5 @@
 const config = {
     "hostname": "http://localhost:8080",
-    "context": ""
+    "context": "",
+    "devHeaders": {"Authorization": "Basic YWRtaW46cGFzc3dvcmQ="}
 };
