@@ -14,15 +14,21 @@
 <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/npm i font-awesome.min.css">-->
 <!--<link href="css/style.css" rel="stylesheet">-->
 <body class="w3-light-grey" ng-controller="MainController">
-
+<div class="alert-main w3-container w3-animate-opacity w3-center" ng-class="mainAlert.className" ng-show="mainAlert.shown">
+    <p title="{{mainAlert.message}}">{{mainAlert.message}}</p>
+</div>
 <!-- Top container -->
 <div id="navbar" class="w3-bar w3-top w3-blue w3-large" style="z-index:4">
     <span class="w3-bar-item w3-right">shenderov.me</span>
 </div>
+<div class="banner w3-container w3-animate-opacity w3-center" ng-class="banner.className" ng-show="banner.shown">
+    <span ng-click="discardBanner()" class="w3-button w3-small w3-display-topright">&times;</span>
+    <p title="{{banner.message}}">{{banner.message}}</p>
+</div>
 
 <!-- Sidebar/menu -->
-<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
-    <div class="w3-container w3-row">
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-opacity" style="z-index:3;width:300px;" id="mySidebar">
+    <div class="nav-user-profile w3-container w3-row">
         <div class="w3-col s8 w3-bar">
             <span>Welcome, <strong>{{userInfo.name}}</strong></span><br>
             <a ng-href="#!/editUser/{{userInfo.username}}" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
@@ -46,9 +52,12 @@
 
 <!-- !PAGE CONTENT! -->
 
-<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+<div class="w3-main main-view w3-animate-opacity" ng-class="banner.shown ? 'main-view-banner' : ''">
+    <div class="alert-view w3-container w3-animate-opacity" ng-class="viewAlert.className" ng-show="viewAlert.shown">
+        <p title="{{viewAlert.message}}">{{viewAlert.message}}</p>
+    </div>
     <!-- Header -->
-    <header class="w3-container" style="padding-top:22px">
+    <header class="w3-container main-view-header">
         <h5><b><i class="fa {{viewData.icon}}"></i> {{viewData.header}}</b></h5>
     </header>
     <div class="w3-container">

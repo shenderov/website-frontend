@@ -16,7 +16,7 @@
         <td ng-click="editUser(u.username)">{{convertRoles(u.authorities)}}</td>
         <td class="w3-center"><input class="w3-check" type="checkbox" ng-model="u.enabled" ng-disabled="u.username === 'admin'"></td>
         <td>
-            <button class="w3-button w3-tiny w3-red" ng-click="deleteUser(u.username)" ng-disabled="u.username === 'admin'">Delete</button>
+            <button class="w3-button w3-tiny w3-red" ng-click="deleteUser(u.username, $index)" ng-disabled="u.username === 'admin'">Delete</button>
         </td>
     </tr>
 </table>

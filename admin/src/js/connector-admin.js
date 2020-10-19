@@ -282,6 +282,39 @@ app.factory('ConnectorAdmin', ['$http', '$q', function ($http, $q) {
                     }
                 );
         },
+        setUserEnabled: function (wrapper) {
+            return $http.post(baseUrl + 'setUserEnabled', wrapper, {headers: headers})
+                .then(
+                    function (response) {
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        return $q.reject(errResponse.data);
+                    }
+                );
+        },
+        setUserAuthorities: function (wrapper) {
+            return $http.post(baseUrl + 'setUserAuthorities', wrapper, {headers: headers})
+                .then(
+                    function (response) {
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        return $q.reject(errResponse.data);
+                    }
+                );
+        },
+        changeUserName: function (wrapper) {
+            return $http.post(baseUrl + 'changeUserName', wrapper, {headers: headers})
+                .then(
+                    function (response) {
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        return $q.reject(errResponse.data);
+                    }
+                );
+        },
         getCurrentUser: function () {
             return $http.get(authBaseUrl + 'getCurrentUser', {headers: headers})
                 .then(

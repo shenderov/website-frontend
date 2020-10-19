@@ -11,17 +11,17 @@
             </div>
             <div class="w3-quarter">
                 <label>Enabled:</label>
-                <input class="w3-input w3-check w3-margin-left edit-user-enabled-check" type="checkbox" ng-model="user.enabled" ng-disabled="user.id && user.username === 'admin'">
+                <input class="w3-input w3-check w3-margin-left edit-user-enabled-check" type="checkbox" ng-model="user.enabled" ng-disabled="user.id && user.username === 'admin'" ng-change="enableChange(user)">
             </div>
         </div>
         <div class="w3-row-padding w3-margin-top">
             <div class="w3-third">
                 <label>Username:</label>
-                <input class="w3-input w3-border" type="text" ng-model="user.username" ng-disabled="user.id && user.username === 'admin'">
+                <input class="w3-input w3-border" type="text" ng-model="user.username" ng-disabled="user.id">
             </div>
             <div class="w3-third">
                 <label>Name:</label>
-                <input class="w3-input w3-border" type="text" ng-model="user.name">
+                <input class="w3-input w3-border" type="text" ng-model="user.name" ng-change="user.id && nameChange(user)">
             </div>
             <div class="w3-third">
                 <div ng-if="user.id">
@@ -36,8 +36,8 @@
         <div class="w3-row-padding authority-selector" ng-if="user.id && user.username !== 'admin' || !user.id">
             <div class="w3-half">
                 <h6>Available Authorities:</h6>
-                <ul class="w3-ul w3-hoverable w3-white clickable-list" ng-show="authorities.length !== user.authorities.length">
-                    <li ng-repeat="a in authorities" ng-show="!user.authorities.includes(a)" ng-click="addAuthority(a)">{{a.authority}}</li>
+                <ul class="w3-ul w3-hoverable w3-white clickable-list" ng-show="!angular.equals(user.authorities, authorities)">
+                    <li ng-repeat="a in authorities" ng-show="!authoritiesInclude(user.authorities, a)" ng-click="addAuthority(a)">{{a.authority}}</li>
                 </ul>
             </div>
             <div class="w3-half">
@@ -50,7 +50,7 @@
     </form>
     <div class="w3-container w3-border-top w3-padding-16 w3-margin-top w3-right-align">
         <button ng-click="cancel()" type="button" class="w3-button w3-white">Cancel</button>
-        <button ng-click="save(user)" type="button" class="w3-button w3-blue">Save</button>
+        <button ng-click="save(user)" type="button" class="w3-button w3-blue" ng-if="!user.id">Save</button>
     </div>
 </div>
 <div class="w3-modal" ng-if="newPasswordModalOpen" style="display: block">

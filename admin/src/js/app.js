@@ -50,6 +50,96 @@ app.controller('MainController', function($scope, $interval, $http, ConnectorAdm
     $scope.userInfo = {};
     $scope.viewData = {};
     $scope.newMessagesCount = 0;
+    $scope.viewAlert = {};
+    $scope.viewAlert.shown = false;
+    $scope.viewAlert.message = "";
+    $scope.viewAlert.className = "";
+    $scope.mainAlert = {};
+    $scope.mainAlert.shown = false;
+    $scope.mainAlert.message = "";
+    $scope.mainAlert.className = "";
+    $scope.banner = {};
+    $scope.banner.shown = false;
+    $scope.banner.message = "";
+    $scope.banner.className = "";
+
+    $scope.showViewAlert = function (type, message) {
+        $scope.viewAlert.message = message;
+        switch (type) {
+            case "info":
+                $scope.viewAlert.className = "w3-light-blue";
+                break;
+            case "success":
+                $scope.viewAlert.className = "w3-green";
+                break;
+            case "warning":
+                $scope.viewAlert.className = "w3-amber";
+                break;
+            case "error":
+            default:
+                $scope.viewAlert.className = "w3-red";
+                break;
+        }
+        $scope.viewAlert.shown = true;
+        $scope.alertTimer = setTimeout(discardAlert, 5000);
+        function discardAlert() {
+            $scope.viewAlert.shown = false;
+            $scope.viewAlert.message = "";
+            $scope.viewAlert.className = "";
+        }
+    };
+
+    $scope.showMainAlert = function (type, message) {
+        $scope.mainAlert.message = message;
+        switch (type) {
+            case "info":
+                $scope.mainAlert.className = "w3-light-blue";
+                break;
+            case "success":
+                $scope.mainAlert.className = "w3-green";
+                break;
+            case "warning":
+                $scope.mainAlert.className = "w3-amber";
+                break;
+            case "error":
+            default:
+                $scope.mainAlert.className = "w3-red";
+                break;
+        }
+        $scope.mainAlert.shown = true;
+        $scope.alertTimer = setTimeout(discardAlert, 5000);
+        function discardAlert() {
+            $scope.mainAlert.shown = false;
+            $scope.mainAlert.message = "";
+            $scope.mainAlert.className = "";
+        }
+    };
+
+    $scope.showBanner = function (type, message) {
+        $scope.banner.message = message;
+        switch (type) {
+            case "info":
+                $scope.banner.className = "w3-light-blue";
+                break;
+            case "success":
+                $scope.banner.className = "w3-green";
+                break;
+            case "warning":
+                $scope.banner.className = "w3-amber";
+                break;
+            case "error":
+            default:
+                $scope.banner.className = "w3-red";
+                break;
+        }
+        $scope.banner.shown = true;
+    };
+
+    $scope.discardBanner = function () {
+        $scope.banner.shown = false;
+        $scope.banner.message = "";
+        $scope.banner.className = "";
+    };
 
     $scope.getBuildInfo = function (){
         $http.get("build.json")
@@ -159,7 +249,7 @@ app.controller('DashboardController', function($scope, ConnectorAdmin){
                 return null;
             })
     };
-    $scope.getYMGeographyData();
+    //$scope.getYMGeographyData();
 
     $scope.getYMUrlsData = function () {
         return ConnectorAdmin.getYMData("urls").then(
@@ -172,7 +262,7 @@ app.controller('DashboardController', function($scope, ConnectorAdmin){
                 return null;
             })
     };
-    $scope.getYMUrlsData();
+    //$scope.getYMUrlsData();
 
     $scope.ym.users = $scope.getYMData("users");
     $scope.ym.newUsers = $scope.getYMData("new_users");
@@ -360,11 +450,20 @@ app.controller('NewEditUserController', function($scope, $location, $routeParams
         }
         if(!found){
             $scope.user.authorities.push(authority);
+            if($scope.user.id)
+                $scope.authoritiesChange($scope.user);
         }
     };
 
     $scope.removeAuthority = function (index) {
         $scope.user.authorities.splice(index, 1);
+        if($scope.user.id)
+            $scope.authoritiesChange($scope.user);
+    };
+
+    $scope.authoritiesInclude = function (arr, authority) {
+        if(arr)
+            return arr.some(a => a.id === authority.id);
     };
 
     $scope.cancel = function () {
@@ -380,21 +479,73 @@ app.controller('NewEditUserController', function($scope, $location, $routeParams
         }
     };
 
-    $scope.updateUser = function (user) {
-        return ConnectorAdmin.updateUser(user).then(
-            function (data) {
-                $location.path('/users');
-                $scope.user = {};
-                return data;
-            },
-            function (errResponse) {
-                console.error(JSON.stringify(errResponse));
-                return null;
-            })
+    $scope.enableChangeTimer = null;
+    $scope.enableChange = function (user) {
+        clearTimeout($scope.enableChangeTimer);
+        $scope.enableChangeTimer = setTimeout(changeEnable, 1000);
+        function changeEnable() {
+            $scope.wrapper = {};
+            $scope.wrapper.username = user.username;
+            $scope.wrapper.value = user.enabled;
+            return ConnectorAdmin.setUserEnabled($scope.wrapper).then(
+                function (data) {
+                    let message = user.enabled ? "User is enabled" : "User is disabled";
+                    $scope.showViewAlert("success", message);
+                    return data;
+                },
+                function (errResponse) {
+                    $scope.showViewAlert("error", "Error: fail enable/disable user");
+                    console.error(JSON.stringify(errResponse));
+                    return null;
+                });
+        }
     };
 
-    $scope.createUser = function (user) {
-        return ConnectorAdmin.createUser(user).then(
+    $scope.nameChangeTimer = null;
+    $scope.nameChange = function (user) {
+        clearTimeout($scope.nameChangeTimer);
+        $scope.nameChangeTimer = setTimeout(updateName, 1000);
+        function updateName() {
+            $scope.wrapper = {};
+            $scope.wrapper.username = user.username;
+            $scope.wrapper.value = user.name;
+            return ConnectorAdmin.changeUserName($scope.wrapper).then(
+                function (data) {
+                    $scope.showViewAlert("success", "Name successfully changed");
+                    return data;
+                },
+                function (errResponse) {
+                    $scope.showViewAlert("error", "Error: fail change name");
+                    console.error(JSON.stringify(errResponse));
+                    return null;
+                });
+        }
+    };
+
+    $scope.authoritiesChangeTimer = null;
+    $scope.authoritiesChange = function (user) {
+        clearTimeout($scope.authoritiesChangeTimer);
+        $scope.authoritiesChangeTimer = setTimeout(updateAuthorities, 1000);
+        function updateAuthorities() {
+            $scope.wrapper = {};
+            $scope.wrapper.username = user.username;
+            $scope.wrapper.authorities = user.authorities;
+            console.log($scope.wrapper.authorities);
+            return ConnectorAdmin.setUserAuthorities($scope.wrapper).then(
+                function (data) {
+                    $scope.showViewAlert("success", "User authorities updated");
+                    return data;
+                },
+                function (errResponse) {
+                    $scope.showViewAlert("error", "Error: fail update user authorities");
+                    console.error(JSON.stringify(errResponse));
+                    return null;
+                });
+        }
+    };
+
+    $scope.createUser = function (newUser) {
+        return ConnectorAdmin.createUser(newUser).then(
             function (data) {
                 $location.path('/users');
                 $scope.user = {};
