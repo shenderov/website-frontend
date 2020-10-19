@@ -1,0 +1,14 @@
+<div class="w3-modal" style="display: block">
+    <div class="w3-modal-content confirmation-modal">
+        <header class="w3-container w3-blue">
+            <h4>{{confirmationModalMessage.header}}</h4>
+        </header>
+        <div class="w3-container">
+            <p>{{confirmationModalMessage.message}}</p>
+        </div>
+        <footer class="w3-container w3-blue w3-padding w3-right-align">
+            <button class="w3-button w3-white" ng-click="closeConfirmationDialog()">Cancel</button>
+            <button class="w3-button w3-red" ng-click="executeConfirmationDialogAction(confirmationModalMessage.action)">Confirm</button>
+        </footer>
+    </div>
+</div>

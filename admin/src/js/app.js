@@ -62,6 +62,27 @@ app.controller('MainController', function($scope, $interval, $http, ConnectorAdm
     $scope.banner.shown = false;
     $scope.banner.message = "";
     $scope.banner.className = "";
+    $scope.confirmationModalOpened = false;
+    $scope.confirmationModalMessage = {};
+
+    $scope.openConfirmationDialog = function(message, callback){
+        $scope.confirmationModalOpened = true;
+        $scope.confirmationModalMessage.header = message !== undefined && message.header ? message.header : "Are you sure?";
+        $scope.confirmationModalMessage.message = message !== undefined && message.message ? message.message : "Please, confirm the action";
+        $scope.confirmationModalMessage.action = callback;
+    };
+
+    $scope.executeConfirmationDialogAction = function(action) {
+        if(typeof action === "function") {
+            action();
+        }
+        $scope.closeConfirmationDialog();
+    };
+
+    $scope.closeConfirmationDialog = function(){
+        $scope.confirmationModalOpened = false;
+        $scope.confirmationModalMessage = {};
+    };
 
     $scope.showViewAlert = function (type, message) {
         $scope.viewAlert.message = message;
@@ -384,16 +405,42 @@ app.controller('UsersController', function($scope, $location, ConnectorAdmin){
         $location.path('/editUser/' + id);
     };
 
+    $scope.enableChangeTimer = null;
+    $scope.enableChange = function (user) {
+        clearTimeout($scope.enableChangeTimer);
+        $scope.enableChangeTimer = setTimeout(changeEnable, 1000);
+        function changeEnable() {
+            $scope.wrapper = {};
+            $scope.wrapper.username = user.username;
+            $scope.wrapper.value = user.enabled;
+            return ConnectorAdmin.setUserEnabled($scope.wrapper).then(
+                function (data) {
+                    let message = user.enabled ? "User is enabled" : "User is disabled";
+                    $scope.showViewAlert("success", message);
+                    return data;
+                },
+                function (errResponse) {
+                    $scope.showViewAlert("error", "Error: fail enable/disable user");
+                    console.error(JSON.stringify(errResponse));
+                    return null;
+                });
+        }
+    };
+
     $scope.deleteUser = function (username, index) {
-        return ConnectorAdmin.deleteUser(username).then(
-            function (data) {
-                $scope.users.splice(index, 1);
-                return data;
-            },
-            function (errResponse) {
-                console.error(JSON.stringify(errResponse));
-                return null;
-            })
+        $scope.message = {};
+        $scope.message.message = "Delete user " + username + "?";
+        $scope.openConfirmationDialog($scope.message, function () {
+            return ConnectorAdmin.deleteUser(username).then(
+                function (data) {
+                    $scope.users.splice(index, 1);
+                    return data;
+                },
+                function (errResponse) {
+                    console.error(JSON.stringify(errResponse));
+                    return null;
+                })
+        });
     };
 });
 
@@ -677,14 +724,41 @@ app.controller('MessagesController', function($scope, ConnectorAdmin){
         if($scope.selectAll){
             $scope.deleteAllMessages();
         }else {
-            return ConnectorAdmin.deleteMessages($scope.selectedMessages).then(
+            $scope.message = {};
+            $scope.message.message = "Delete selected messages?";
+            $scope.message.message = "Please, confirm delete selected messages";
+            $scope.openConfirmationDialog($scope.message, function () {
+                return ConnectorAdmin.deleteMessages($scope.selectedMessages).then(
+                    function (data) {
+                        if(data){
+                            for(const id in $scope.selectedMessages){
+                                $scope.messages.splice($scope.messages.map(m => m.uuid).indexOf($scope.selectedMessages[id]), 1);
+                            }
+                            $scope.selectedMessages = [];
+                            $scope.selectAll = false;
+                        }
+                        $scope.getNewMessagesCount();
+                        return data;
+                    },
+                    function (errResponse) {
+                        console.error(JSON.stringify(errResponse));
+                        return null;
+                    })
+            });
+        }
+    };
+
+    $scope.deleteAllMessages = function () {
+        $scope.message = {};
+        $scope.message.message = "Delete all messages?";
+        $scope.message.message = "Please, confirm delete all messages";
+        $scope.openConfirmationDialog($scope.message, function () {
+            return ConnectorAdmin.deleteAllMessages().then(
                 function (data) {
                     if(data){
-                        for(const id in $scope.selectedMessages){
-                            $scope.messages.splice($scope.messages.map(m => m.uuid).indexOf($scope.selectedMessages[id]), 1);
-                        }
                         $scope.selectedMessages = [];
                         $scope.selectAll = false;
+                        $scope.messages = [];
                     }
                     $scope.getNewMessagesCount();
                     return data;
@@ -693,24 +767,7 @@ app.controller('MessagesController', function($scope, ConnectorAdmin){
                     console.error(JSON.stringify(errResponse));
                     return null;
                 })
-        }
-    };
-
-    $scope.deleteAllMessages = function () {
-        return ConnectorAdmin.deleteAllMessages().then(
-            function (data) {
-                if(data){
-                    $scope.selectedMessages = [];
-                    $scope.selectAll = false;
-                    $scope.messages = [];
-                }
-                $scope.getNewMessagesCount();
-                return data;
-            },
-            function (errResponse) {
-                console.error(JSON.stringify(errResponse));
-                return null;
-            })
+        });
     };
 
     $scope.openModal = function (index) {

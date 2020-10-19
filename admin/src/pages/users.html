@@ -14,7 +14,7 @@
     <tr ng-repeat="u in users track by u.id">
         <td ng-click="editUser(u.username)">{{u.username}}</td>
         <td ng-click="editUser(u.username)">{{convertRoles(u.authorities)}}</td>
-        <td class="w3-center"><input class="w3-check" type="checkbox" ng-model="u.enabled" ng-disabled="u.username === 'admin'"></td>
+        <td class="w3-center"><input class="w3-check" type="checkbox" ng-model="u.enabled" ng-change="enableChange(u)" ng-disabled="u.username === 'admin'"></td>
         <td>
             <button class="w3-button w3-tiny w3-red" ng-click="deleteUser(u.username, $index)" ng-disabled="u.username === 'admin'">Delete</button>
         </td>
