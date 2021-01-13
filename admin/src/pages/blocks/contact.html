@@ -4,7 +4,7 @@
         <span><i class="fa fa-close" ng-click="deletePositionedArrayRow(block.formLabels, $index)"></i></span>
         <span class="position-input">
             <label>Position:</label>
-            <input class="w3-input ==" type="text" ng-model="l.position" disabled>
+            <input class="w3-input" type="text" ng-model="l.position" disabled>
         </span>
         <span><i class="fa fa-arrow-up" ng-click="moveUp(block.formLabels, $index)"></i></span>
         <span><i class="fa fa-arrow-down" ng-click="moveDown(block.formLabels, $index)"></i></span>
@@ -23,5 +23,5 @@
     </div>
 </div>
 <span>
-    <button class="w3-button w3-border w3-white" ng-click="block.formLabels.push({position: block.formLabels.length+1})">Add...</button>
+    <button class="w3-button w3-border w3-white" ng-click="block.formLabels.push({position: block.formLabels.length+1, iconClass: null, label: null, value: null})">Add...</button>
 </span>

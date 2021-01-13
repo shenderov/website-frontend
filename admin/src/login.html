@@ -12,12 +12,20 @@
                 <div id="error-panel" class="w3-panel w3-red" style="display: none">
                     <p>Incorrect username or password</p>
                 </div>
-                <label><b>Username</b></label>
-                <input class="w3-input w3-border w3-margin-bottom" onchange="discardError()" name="username" placeholder="Enter Username" required type="text">
-                <label><b>Password</b></label>
-                <input class="w3-input w3-border" onchange="discardError()" name="password" placeholder="Enter Password" required type="password">
-                <button class="w3-button w3-block w3-blue w3-section w3-padding" type="submit">Login</button>
-                <input class="w3-check w3-margin-top" type="checkbox" name="remember-me"> Remember me
+                <div id="login-form-username">
+                    <label><b>Username</b></label>
+                    <input class="w3-input w3-border w3-margin-bottom" onchange="discardError()" name="username" placeholder="Enter Username" required type="text">
+                </div>
+                <div id="login-form-password">
+                    <label><b>Password</b></label>
+                    <input class="w3-input w3-border" onchange="discardError()" name="password" placeholder="Enter Password" required type="password">
+                </div>
+                <div>
+                    <button id="login-form-submit-button" class="w3-button w3-block w3-blue w3-section w3-padding" type="submit">Login</button>
+                </div>
+                <div>
+                    <input id="login-form-rememberme-checkbox" class="w3-check w3-margin-top" type="checkbox" name="remember-me"> Remember me
+                </div>
             </div>
         </form>
         <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">

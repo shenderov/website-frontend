@@ -806,13 +806,15 @@ app.controller('BlocksController', function($scope, $location, ConnectorAdmin){
     $scope.viewData.header = "Blocks";
     $scope.viewData.icon = "fa-columns";
     $scope.blockTypes = ["AboutBlock", "ContactBlock", "ExpertiseBlock", "SkillsBlock", "TimelineBlock"];
-    $scope.blocks = {};
+    $scope.blocks = [];
     $scope.modalOpen = false;
 
     $scope.getAllBlocks = function () {
         return ConnectorAdmin.getAllBlocks().then(
             function (data) {
-                $scope.blocks = data;
+                for(const block in data){
+                    $scope.blocks.push(data[block])
+                }
                 return data;
             },
             function (errResponse) {

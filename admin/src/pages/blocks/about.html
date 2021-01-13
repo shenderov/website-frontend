@@ -1,13 +1,13 @@
 <div class="w3-row-padding">
     <div class="w3-col">
         <label>Name:</label>
-        <input class="w3-input w3-border" type="text" value="{{block.name}}">
+        <input class="w3-input w3-border" type="text" ng-model="block.name">
     </div>
 </div>
 <div class="w3-row-padding">
     <div class="w3-col">
         <label>Position Name:</label>
-        <input class="w3-input w3-border" type="text" value="{{block.positionName}}">
+        <input class="w3-input w3-border" type="text" ng-model="block.positionName">
     </div>
 </div>
 <div class="w3-row-padding">
@@ -19,58 +19,58 @@
 <h6 class="w3-margin-left w3-margin-top"><strong>Contacts:</strong></h6>
 <div class="w3-row-padding generic-element-container" ng-repeat="c in block.contacts" data-ng-init="sortPositionedArray(block.contacts)">
     <div class="w3-quarter position-selector">
-        <span><i class="fa fa-close" ng-click="deletePositionedArrayRow(block.formLabels, $index)"></i></span>
+        <span><i class="fa fa-close" ng-click="deletePositionedArrayRow(block.contacts, $index)"></i></span>
         <span class="position-input">
             <label>Position:</label>
-            <input class="w3-input w3-border" type="number" value="{{c.position}}">
+            <input class="w3-input" type="number" ng-model="c.position" disabled>
         </span>
-        <span><i class="fa fa-arrow-up" ng-click="moveUp(block.formLabels, $index)"></i></span>
-        <span><i class="fa fa-arrow-down" ng-click="moveDown(block.formLabels, $index)"></i></span>
+        <span><i class="fa fa-arrow-up" ng-click="moveUp(block.contacts, $index)"></i></span>
+        <span><i class="fa fa-arrow-down" ng-click="moveDown(block.contacts, $index)"></i></span>
     </div>
     <div class="w3-quarter">
         <label>Label:</label>
-        <input class="w3-input w3-border" type="text" value="{{c.label}}">
+        <input class="w3-input w3-border" type="text" ng-model="c.label">
     </div>
     <div class="w3-rest">
         <label>Value:</label>
-        <input class="w3-input w3-border" type="text" value="{{c.value}}">
+        <input class="w3-input w3-border" type="text" ng-model="c.value">
     </div>
 </div>
 <span>
-    <button class="w3-button w3-border w3-white" ng-click="block.contacts.push({})">Add...</button>
+    <button class="w3-button w3-border w3-white" ng-click="block.contacts.push({position: block.contacts.length+1, iconClass: null, label: null, value: null})">Add...</button>
 </span>
 <h6 class="w3-margin-left w3-margin-top"><strong>Media Links:</strong></h6>
 <div class="w3-row-padding generic-element-container" ng-repeat="l in block.mediaLinks" data-ng-init="sortPositionedArray(block.mediaLinks)">
     <div class="w3-quarter position-selector">
-        <span><i class="fa fa-close" ng-click="deletePositionedArrayRow(block.formLabels, $index)"></i></span>
+        <span><i class="fa fa-close" ng-click="deletePositionedArrayRow(block.mediaLinks, $index)"></i></span>
         <span class="position-input">
             <label>Position:</label>
-            <input class="w3-input w3-border" type="number" value="{{l.position}}">
+            <input class="w3-input" type="number" ng-model="l.position" disabled>
         </span>
-        <span><i class="fa fa-arrow-up"></i></span>
-        <span><i class="fa fa-arrow-down"></i></span>
+        <span><i class="fa fa-arrow-up" ng-click="moveUp(block.mediaLinks, $index)"></i></span>
+        <span><i class="fa fa-arrow-down" ng-click="moveDown(block.mediaLinks, $index)"></i></span>
     </div>
     <div class="w3-quarter">
         <label>Icon Class:</label>
-        <input class="w3-input w3-border" type="text" value="{{l.iconClass}}">
+        <input class="w3-input w3-border" type="text" ng-model="l.iconClass">
     </div>
     <div class="w3-quarter">
         <label>Label:</label>
-        <input class="w3-input w3-border" type="text" value="{{l.label}}">
+        <input class="w3-input w3-border" type="text" ng-model="l.label">
     </div>
     <div class="w3-rest">
         <label>Value:</label>
-        <input class="w3-input w3-border" type="text" value="{{l.value}}">
+        <input class="w3-input w3-border" type="text" ng-model="l.value">
     </div>
 </div>
 <span>
-    <button class="w3-button w3-border w3-white" ng-click="block.mediaLinks.push({})">Add...</button>
+    <button class="w3-button w3-border w3-white" ng-click="block.mediaLinks.push({position: block.mediaLinks.length+1, iconClass: null, label: null, value: null})">Add...</button>
 </span>
 <h6 class="w3-margin-left w3-margin-top"><strong>Profile Picture:</strong></h6>
 <div class="w3-row-padding">
     <div class="w3-half">
         <label>Photo:</label>
-        <input class="w3-input w3-border" type="text" value="{{block.photo}}" style="margin-bottom: 20px">
+        <input class="w3-input w3-border" type="text" ng-model="block.photo" style="margin-bottom: 20px">
     </div>
 </div>
 <div class="w3-row-padding">

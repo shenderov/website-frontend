@@ -17,19 +17,19 @@
     <div class="w3-row-padding">
         <div class="w3-col">
             <label>Position:</label>
-            <input class="w3-input w3-border" type="text" value="{{e.positionName}}">
+            <input class="w3-input w3-border" type="text" ng-model="e.positionName">
         </div>
     </div>
     <div class="w3-row-padding">
         <div class="w3-col">
             <label>Organisation:</label>
-            <input class="w3-input w3-border" type="text" value="{{e.organisation}}">
+            <input class="w3-input w3-border" type="text" ng-model="e.organisation">
         </div>
     </div>
     <div class="w3-row-padding">
         <div class="w3-col">
             <label>Location:</label>
-            <input class="w3-input w3-border" type="text" value="{{e.location}}">
+            <input class="w3-input w3-border" type="text" ng-model="e.location">
         </div>
     </div>
     <div class="w3-row-padding">
@@ -45,7 +45,7 @@
     </div>
 </div>
 <span>
-    <button class="w3-button w3-border w3-white" ng-click="block.elements.push({})">Add...</button>
+    <button class="w3-button w3-border w3-white" ng-click="block.elements.push({startDate: null, endDate: null, noEndDate: false, positionName: null, organisation: null, location: null, description: null})">Add...</button>
 </span>
 
 
