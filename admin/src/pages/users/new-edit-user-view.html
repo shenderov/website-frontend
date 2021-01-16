@@ -1,33 +1,33 @@
 <div id="new-edit-user-view">
     <form class="w3-container">
         <div class="w3-row-padding" ng-if="user.id">
-            <div class="w3-quarter">
+            <div class="w3-quarter" id="edit-user-id-field">
                 <label>ID:</label>
                 <input class="w3-input w3-border" type="text" ng-model="user.id" disabled>
             </div>
-            <div class="w3-half">
+            <div class="w3-half" id="edit-user-last-password-reset-field">
                 <label>Last Password Reset:</label>
                 <input class="w3-input w3-border edit-user-date-picker" type="datetime-local" ng-model="user.lastPasswordResetDate" disabled>
             </div>
-            <div class="w3-quarter">
+            <div class="w3-quarter"  id="edit-user-enabled-checkbox">
                 <label>Enabled:</label>
                 <input class="w3-input w3-check w3-margin-left edit-user-enabled-check" type="checkbox" ng-model="user.enabled" ng-disabled="user.id && user.username === 'admin'" ng-change="enableChange(user)">
             </div>
         </div>
         <div class="w3-row-padding w3-margin-top">
-            <div class="w3-third">
+            <div class="w3-third" id="edit-user-username-field">
                 <label>Username:</label>
                 <input class="w3-input w3-border" type="text" ng-model="user.username" ng-disabled="user.id">
             </div>
-            <div class="w3-third">
+            <div class="w3-third" id="edit-user-name-field">
                 <label>Name:</label>
                 <input class="w3-input w3-border" type="text" ng-model="user.name" ng-change="user.id && nameChange(user)">
             </div>
             <div class="w3-third">
-                <div ng-if="user.id">
+                <div ng-if="user.id" id="edit-user-change-password-button">
                     <button class="w3-button w3-white w3-border edit-user-reset-password-button" ng-click="openResetPasswordModal()">Reset Password</button>
                 </div>
-                <div ng-if="!user.id">
+                <div ng-if="!user.id" id="edit-user-password-field">
                     <label>Password:</label>
                     <input class="w3-input w3-border" type="password" ng-model="user.password">
                 </div>
@@ -53,7 +53,7 @@
         <button ng-click="save(user)" type="button" class="w3-button w3-blue" ng-if="!user.id">Save</button>
     </div>
 </div>
-<div class="w3-modal" ng-if="newPasswordModalOpen" style="display: block">
+<div class="w3-modal" ng-if="newPasswordModalOpen" style="display: block" id="change-password-modal">
     <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
         <form class="w3-container">
             <div class="w3-section">

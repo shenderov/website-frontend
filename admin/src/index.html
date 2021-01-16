@@ -33,7 +33,7 @@
             <span>Welcome, <strong>{{userInfo.name}}</strong></span><br>
             <div class="nav-user-profile-icons">
                 <a ng-href="#!/editUser/{{userInfo.username}}" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
-                <a ng-href="#!/settings" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
+                <a ng-href="#!/settings" ng-if="false" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
                 <a ng-click="logout()" class="w3-bar-item w3-button"><i class="fa fa-sign-out"></i></a>
             </div>
         </div>
