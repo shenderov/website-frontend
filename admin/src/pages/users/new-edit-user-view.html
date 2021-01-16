@@ -37,7 +37,7 @@
             <div class="w3-half">
                 <h6>Available Authorities:</h6>
                 <ul class="w3-ul w3-hoverable w3-white clickable-list" ng-show="!angular.equals(user.authorities, authorities)">
-                    <li ng-repeat="a in authorities" ng-show="!authoritiesInclude(user.authorities, a)" ng-click="addAuthority(a)">{{a.authority}}</li>
+                    <li ng-repeat="a in authorities" ng-if="!authoritiesInclude(user.authorities, a)" ng-click="addAuthority(a)">{{a.authority}}</li>
                 </ul>
             </div>
             <div class="w3-half">
