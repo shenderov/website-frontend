@@ -19,7 +19,7 @@
     </div>
     <div id="about-block-form-contacts-list">
         <h6 class="w3-margin-left w3-margin-top"><strong>Contacts:</strong></h6>
-        <div class="w3-row-padding generic-element-container" ng-repeat="c in block.contacts" data-ng-init="sortPositionedArray(block.contacts)">
+        <div class="w3-row-padding generic-element-container element-container" ng-repeat="c in block.contacts" data-ng-init="sortPositionedArray(block.contacts)">
             <div class="w3-quarter position-selector">
                 <span><i class="fa fa-close" ng-click="deletePositionedArrayRow(block.contacts, $index)"></i></span>
                 <span class="position-input">
@@ -29,17 +29,17 @@
                 <span><i class="fa fa-arrow-up" ng-click="moveUp(block.contacts, $index)"></i></span>
                 <span><i class="fa fa-arrow-down" ng-click="moveDown(block.contacts, $index)"></i></span>
             </div>
-            <div class="w3-quarter generic-element-label-field">
+            <div class="w3-quarter generic-element-label-field element-label-field">
                 <label>Label:</label>
                 <input class="w3-input w3-border" type="text" ng-model="c.label">
             </div>
-            <div class="w3-rest generic-element-value-field">
+            <div class="w3-rest generic-element-value-field element-value-field">
                 <label>Value:</label>
                 <input class="w3-input w3-border" type="text" ng-model="c.value">
             </div>
         </div>
         <span>
-        <button class="w3-button w3-border w3-white generic-element-add-button" ng-click="block.contacts.push({position: block.contacts.length+1, iconClass: null, label: null, value: null})">Add...</button>
+        <button class="w3-button w3-border w3-white generic-element-add-button element-add-button" ng-click="block.contacts.push({position: block.contacts.length+1, iconClass: null, label: null, value: null})">Add...</button>
     </span>
     </div>
     <div id="about-block-form-media-links-list">
@@ -54,21 +54,21 @@
                 <span><i class="fa fa-arrow-up" ng-click="moveUp(block.mediaLinks, $index)"></i></span>
                 <span><i class="fa fa-arrow-down" ng-click="moveDown(block.mediaLinks, $index)"></i></span>
             </div>
-            <div class="w3-quarter generic-element-icon-class-field">
+            <div class="w3-quarter generic-element-icon-class-field element-icon-class-field">
                 <label>Icon Class:</label>
                 <input class="w3-input w3-border" type="text" ng-model="l.iconClass">
             </div>
-            <div class="w3-quarter generic-element-label-field">
+            <div class="w3-quarter generic-element-label-field element-label-field">
                 <label>Label:</label>
                 <input class="w3-input w3-border" type="text" ng-model="l.label">
             </div>
-            <div class="w3-rest generic-element-value-field">
+            <div class="w3-rest generic-element-value-field element-value-field">
                 <label>Value:</label>
                 <input class="w3-input w3-border" type="text" ng-model="l.value">
             </div>
         </div>
         <span>
-    <button class="w3-button w3-border w3-white generic-element-add-button" ng-click="block.mediaLinks.push({position: block.mediaLinks.length+1, iconClass: null, label: null, value: null})">Add...</button>
+    <button class="w3-button w3-border w3-white generic-element-add-button element-add-button" ng-click="block.mediaLinks.push({position: block.mediaLinks.length+1, iconClass: null, label: null, value: null})">Add...</button>
 </span>
     </div>
     <div id="about-block-form-picture-selector">
