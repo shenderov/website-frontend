@@ -31,7 +31,7 @@ app.config(function ($routeProvider) {
             templateUrl: 'pages/blocks/new-edit-block-view.html',
             controller: 'NewEditBlockController'
         })
-        .when("/addBlock/:classType", {
+        .when("/addBlock/:classType/:position", {
             templateUrl: 'pages/blocks/new-edit-block-view.html',
             controller: 'NewEditBlockController'
         })
@@ -828,22 +828,33 @@ app.controller('BlocksController', function($scope, $location, ConnectorAdmin){
         $location.path('/editBlock/' + id)
     };
     $scope.addBlock = function (classType) {
-        $location.path('/addBlock/' + classType);
+        $location.path('/addBlock/' + classType + "/" + $scope.getPosition($scope.blocks));
         $scope.closeModal();
     };
+    $scope.getPosition = function(blocks){
+        let position = 0;
+        blocks.forEach(b => {
+            if(b.position > position)
+                position = b.position;
+        });
+        return position+1;
+    };
 
-    $scope.deleteBlock = function (id) {
-        return ConnectorAdmin.deleteBlock(id).then(
-            function (data) {
-                if(data){
-                    delete $scope.blocks[id];
-                }
-                return data;
-            },
-            function (errResponse) {
-                console.error(JSON.stringify(errResponse));
-                return null;
-            })
+    $scope.deleteBlock = function (id, index) {
+        $scope.message = {};
+        $scope.message.message = "Delete block with ID: " + id + "?";
+        $scope.openConfirmationDialog($scope.message, function () {
+            return ConnectorAdmin.deleteBlock(id).then(
+                function (data) {
+                    $scope.blocks = [];
+                    $scope.getAllBlocks();
+                    return data;
+                },
+                function (errResponse) {
+                    console.error(JSON.stringify(errResponse));
+                    return null;
+                })
+        });
     };
 
     $scope.closeModal = function () {
@@ -854,6 +865,7 @@ app.controller('BlocksController', function($scope, $location, ConnectorAdmin){
 app.controller('NewEditBlockController', function($scope, $location, $routeParams, ConnectorAdmin){
     $scope.blockId = $routeParams.id;
     $scope.classType = $routeParams.classType;
+    $scope.position = $routeParams.position;
     $scope.viewData.icon = "fa-columns";
     $scope.block = {};
     $scope.getBlock = function () {
@@ -881,6 +893,7 @@ app.controller('NewEditBlockController', function($scope, $location, $routeParam
     $scope.newBlock = function (classType) {
         $scope.setTemplate("me.shenderov.website.dao." + classType, true);
         $scope.block.classType = "me.shenderov.website.dao." + classType;
+        $scope.block.position = parseInt($scope.position);
     };
 
     $scope.setTemplate = function(classType, isNew) {
